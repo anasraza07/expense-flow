@@ -1,141 +1,50 @@
-const STORAGE_KEY = "expenseTrackerTransactions";
 
-const form = document.getElementById("transaction-form");
-const amountInput = document.getElementById("amount");
-const descriptionInput = document.getElementById("description");
-const categoryInput = document.getElementById("category");
-const dateInput = document.getElementById("date");
-const message = document.getElementById("form-message");
+let form = document.getElementById("transaction-form");
 
-// Set today's date automatically
-function getToday() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
+let type = document.getElementById("type");
+let amount = document.getElementById("amount");
+let description = document.getElementById("description");
+let category = document.getElementById("category");
+let date = document.getElementById("date");
 
-  return `${year}-${month}-${day}`;
-}
+// Aaj ki date set karo
+let today = new Date();
 
-dateInput.value = getToday();
+let year = today.getFullYear();
+let month = String(today.getMonth() + 1).padStart(2, "0");
+let day = String(today.getDate()).padStart(2, "0");
 
-// Load existing transactions
-function getTransactions() {
-  try {
-    const data = localStorage.getItem(STORAGE_KEY);
-    const transactions = data ? JSON.parse(data) : [];
+date.value = year + "-" + month + "-" + day;
 
-    if (!Array.isArray(transactions)) {
-      throw new Error("Invalid transaction data");
+// Form submit hone par
+form.onsubmit = function (event) {
+    event.preventDefault();
+
+    let transactions = localStorage.getItem("transactions");
+
+    if (transactions == null) {
+        transactions = [];
+    } else {
+        transactions = JSON.parse(transactions);
     }
 
-    return transactions;
-  } catch (error) {
-    console.error("Error loading transactions:", error);
-    throw new Error("Saved data could not be loaded.");
-  }
-}
-
-// Display an error or success message
-function showMessage(text, type) {
-  message.textContent = text;
-  message.className = type;
-}
-
-// Save expense
-form.addEventListener("submit", function (event) {
-  event.preventDefault();
-
-  const amount = Number(amountInput.value);
-  const description = descriptionInput.value.trim();
-  const category = categoryInput.value;
-  const date = dateInput.value;
-
-  // Validate amount
-  if (!Number.isFinite(amount) || amount <= 0) {
-    showMessage("Please enter an amount greater than zero.", "error");
-    amountInput.focus();
-    return;
-  }
-
-  // Validate description
-  if (!description) {
-    showMessage("Please enter an expense description.", "error");
-    descriptionInput.focus();
-    return;
-  }
-
-  // Validate category
-  const validCategories = [
-    "Food",
-    "Transport",
-    "Bills",
-    "Shopping",
-    "Health",
-    "Education",
-    "Other"
-  ];
-
-  if (!validCategories.includes(category)) {
-    showMessage("Please select a valid category.", "error");
-    categoryInput.focus();
-    return;
-  }
-
-  // Validate date, including impossible calendar dates
-  const dateMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date);
-
-  if (!dateMatch) {
-    showMessage("Please select a valid date.", "error");
-    dateInput.focus();
-    return;
-  }
-
-  const year = Number(dateMatch[1]);
-  const month = Number(dateMatch[2]);
-  const day = Number(dateMatch[3]);
-  const parsedDate = new Date(`${date}T00:00:00`);
-
-  if (
-    parsedDate.getFullYear() !== year ||
-    parsedDate.getMonth() + 1 !== month ||
-    parsedDate.getDate() !== day
-  ) {
-    showMessage("Please select a valid calendar date.", "error");
-    dateInput.focus();
-    return;
-  }
-
-  try {
-    const transactions = getTransactions();
-
-    const newExpense = {
-      id: Date.now(),
-      type: "expense",
-      amount: amount,
-      description: description,
-      category: category,
-      date: date
+    let newTransaction = {
+        id: Date.now(),
+        type: type.value,
+        amount: Number(amount.value),
+        description: description.value,
+        category: category.value,
+        date: date.value
     };
 
-    transactions.push(newExpense);
+    transactions.push(newTransaction);
 
-    // Save to localStorage
     localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(transactions)
+        "transactions",
+        JSON.stringify(transactions)
     );
 
-    showMessage("Expense saved successfully!", "success");
+    alert("Transaction saved successfully!");
 
-    // Open dashboard after saving
-    window.location.href = "./index.html";
-  } catch (error) {
-    console.error("Error saving expense:", error);
-
-    showMessage(
-      "Expense save nahi hua. Browser storage check karo.",
-      "error"
-    );
-  }
-});
+    window.location.href = "index.html";
+};

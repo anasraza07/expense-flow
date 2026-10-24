@@ -2,81 +2,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add Expense | Expense Tracker</title>
-  <link rel="stylesheet" href="./add-expense.css">
-  <script src="./add-expense.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Transaction</title>
+    <link rel="stylesheet" href="add-expense.css">
 </head>
+
 <body>
 
-  <nav class="navbar">
-    <a href="./index.html" class="logo">Expense Tracker</a>
-    <a href="./index.html" class="back-link">← Dashboard</a>
-  </nav>
+    <nav class="navbar">
+        <a href="index.html" class="logo">Expense Tracker</a>
+        <a href="index.html">Dashboard</a>
+    </nav>
 
-  <main class="container">
-    <section class="form-card">
-      <div class="heading">
-        <span class="eyebrow">TRACK YOUR SPENDING</span>
-        <h1>Add Expense</h1>
-        <p>Enter your expense details below.</p>
-      </div>
+    <main class="container">
+        <section class="form-card">
 
-      <form id="transaction-form">
-        <div class="field">
-          <label for="amount">Amount (PKR)</label>
-          <input
-            type="number"
-            id="amount"
-            placeholder="e.g. 1500"
-            min="0.01"
-            step="0.01"
-            required
-          >
-        </div>
+            <h1>Add Transaction</h1>
+            <p>Enter your transaction details below.</p>
 
-        <div class="field">
-          <label for="description">Description</label>
-          <input
-            type="text"
-            id="description"
-            placeholder="e.g. Grocery shopping"
-            maxlength="100"
-            required
-          >
-        </div>
+            <form id="transaction-form">
 
-        <div class="field">
-          <label for="category">Category</label>
-          <select id="category" required>
-            <option value="">Select category</option>
-            <option value="Food">Food</option>
-            <option value="Transport">Transport</option>
-            <option value="Bills">Bills</option>
-            <option value="Shopping">Shopping</option>
-            <option value="Health">Health</option>
-            <option value="Education">Education</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
+                <div class="field">
+                    <label for="type">Transaction Type</label>
+                    <select id="type" required>
+                        <option value="expense">Expense</option>
+                        <option value="income">Income</option>
+                    </select>
+                </div>
 
-        <div class="field">
-          <label for="date">Expense Date</label>
-          <input type="date" id="date" required>
-        </div>
+                <div class="field">
+                    <label for="amount">Amount (PKR)</label>
+                    <input type="number" id="amount" min="0.01"
+                        step="0.01" placeholder="Enter amount" required>
+                </div>
 
-        <p id="form-message" role="status" aria-live="polite"></p>
+                <div class="field">
+                    <label for="description">Description</label>
+                    <input type="text" id="description"
+                        placeholder="e.g. Grocery shopping" required>
+                </div>
 
-        <div class="form-actions">
-          <a href="./index.html" class="btn btn-cancel">Cancel</a>
-          <button type="submit" class="btn btn-submit">
-            Save Expense
-          </button>
-        </div>
-      </form>
-    </section>
-  </main>
+                <div class="field">
+                    <label for="category">Category</label>
+                    <select id="category" required>
+                        <option value="">Select category</option>
+                        <option value="Food">Food</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Health">Health</option>
+                        <option value="Education">Education</option>
+                        <option value="Salary">Salary</option>
+                        <option value="Business">Business</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
 
+                <div class="field">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" required>
+                </div>
+
+                <div class="form-actions">
+                    <a href="index.html" class="btn cancel">Cancel</a>
+                    <button type="submit" class="btn">Save Transaction</button>
+                </div>
+
+            </form>
+        </section>
+    </main>
+
+    <script src="add-expense.js"></script>
 </body>
 </html>
